@@ -2,10 +2,12 @@
 p1 = ""
 p2 = ""
 console.log(ml5.version);
-classifier=ml5.imageClassifier("https://teachablemachine.withgoogle.com/models/vyhDh_qhR/mobel.json",modelloaded)
+classifier=ml5.imageClassifier("https://teachablemachine.withgoogle.com/models/vyhDh_qhR/model.json",modelloaded)
 
 function check() {
-    speak()
+    pic = document.getElementById("picture")
+    classifier.classify(pic, gotresult)
+
 }
 
 function capture() {
@@ -36,4 +38,30 @@ function speak() {
 
 function modelloaded(){
     console.log("model is ready");
+}
+
+function gotresult(error,result){
+    if (error) {
+        console.error(error);
+    } else {
+        console.log(result);
+        p1 = result[0].label;
+        p2 = result[1].label;
+        document.getElementById("emotion1").innerHTML = p1;
+        document.getElementById("emotion2").innerHTML = p2;
+        speak()
+        if (p1 == "victory") {
+            document.getElementById("emoji1").innerHTML = "✌"
+        } if (p2 == "victory") {
+            document.getElementById("emoji2").innerHTML = "✌"
+        } if (p1 == "ok") {
+            document.getElementById("emoji1").innerHTML = "👌"
+        } if (p2 == "ok") {
+            document.getElementById("emoji2").innerHTML = "👌"
+        } if (p1 == "rock") {
+            document.getElementById("emoji1").innerHTML = "🤘"
+        } if (p2 == "rock") {
+            document.getElementById("emoji2").innerHTML = "🤘"
+        }
+    }
 }
